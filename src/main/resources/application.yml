@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: test-lvl-consulting
+  main:
+    banner-mode: off
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test-backendJava
+    username: omerSolutions
+    password: peru2020
+
+#  flyway:
+#    clean-disabled: false
+#    locations: classpath:db/migration,classpath:db/test-data
+#    baseline-on-migrate: true
+#    postgresql:
+#      transactional-lock: true
+#    clean-on-validation-error: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: debug
