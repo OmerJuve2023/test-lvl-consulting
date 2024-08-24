@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import omer.solutions.testlvlconsulting.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -44,27 +45,28 @@ public class SecurityConfig {
     }
 
     private static final String[] WHITE_LIST_URL = {
-            "/api/auth/login",
+            "/api/auth/**",
     };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors(AbstractHttpConfigurer::disable) // Disabling CORS as we use JWT which is immune to CSRF
-                .csrf(AbstractHttpConfigurer::disable) // Disabling CSRF as we use JWT which is immune to CSRF
+                .cors(AbstractHttpConfigurer::disable) // Deshabilitar CORS ya que usamos JWT, que es inmune a CSRF
+                .csrf(AbstractHttpConfigurer::disable) // Deshabilitar CSRF ya que usamos JWT, que es inmune a CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITE_LIST_URL).permitAll() // Whitelisting some paths from authentication
-                        .anyRequest().authenticated()) // All other requests must be authenticated
+                        .requestMatchers(WHITE_LIST_URL).permitAll() // Incluir en la lista blanca algunas rutas de autenticación
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Permitir solicitudes de verificación previa
+                        .anyRequest().authenticated()) // Todas las demás solicitudes deben estar autenticadas
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Stateless session management
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Administración de sesiones sin estado
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(authenticationEntryPointWithError)) // Handling authentication exceptions
+                        .authenticationEntryPoint(authenticationEntryPointWithError)) // Control de excepciones de autenticación
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(
                         authenticationJwtTokenFilter,
                         UsernamePasswordAuthenticationFilter.class
-                ); // Registering our JwtAuthFilter
+                ); // Registrando nuestro JwtAuthFilter
 
         return http.build();
     }

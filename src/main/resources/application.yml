@@ -25,3 +25,8 @@ logging:
     org:
       springframework:
         web: debug  # Nivel de log para el paquete org.springframework.web
+
+jwt:
+  jwtCookieName: access_token # Nombre de la cookie que contiene el token JWT
+  jwtSecret: 7638792F423F4528482B4D6251655368566D597133743677397A24432646294A # Clave secreta para firmar el token JWT
+  jwtExpirationMs: 86400000 # Tiempo de expiración del token JWT en milisegundos
