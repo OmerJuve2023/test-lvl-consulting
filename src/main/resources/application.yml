@@ -2,30 +2,26 @@ spring:
   application:
     name: test-lvl-consulting
   main:
-    banner-mode: off
+    banner-mode: off  # Desactiva el banner de inicio de Spring Boot
+
   jpa:
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Especifica el dialecto de Hibernate para PostgreSQL
     hibernate:
-      ddl-auto: update
-    show-sql: true
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/test-backendJava
-    username: omerSolutions
-    password: peru2020
+      ddl-auto: update  # Actualiza el esquema de la base de datos en cada inicio
+    show-sql: true  # Muestra las consultas SQL en la consola
 
-#  flyway:
-#    clean-disabled: false
-#    locations: classpath:db/migration,classpath:db/test-data
-#    baseline-on-migrate: true
-#    postgresql:
-#      transactional-lock: true
-#    clean-on-validation-error: true
+  flyway:
+    clean-disabled: false  # Permite la limpieza de la base de datos
+    locations: classpath:db/migration,classpath:db/testdata  # Ubicaciones de los scripts de migración
+    baseline-on-migrate: true  # Crea una línea base en la migración si no hay una
+    clean-on-validation-error: true  # Limpia la base de datos si hay un error de validación
+    enabled: true  # Habilita Flyway
+    encoding: utf-8  # Codificación de los scripts de migración
 
 logging:
   level:
     org:
       springframework:
-        web: debug
+        web: debug  # Nivel de log para el paquete org.springframework.web

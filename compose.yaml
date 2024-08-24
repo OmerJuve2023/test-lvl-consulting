@@ -8,8 +8,8 @@ services:
       POSTGRES_USER: omerSolutions
       POSTGRES_PASSWORD: peru2020
       POSTGRES_DB: test-backendJava
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - backend
 volumes:
