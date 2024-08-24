@@ -1,7 +1,7 @@
 package omer.solutions.testlvlconsulting.repository;
 
 
-import com.example.loginbackendJava.login.entity.Role;
+import omer.solutions.testlvlconsulting.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
