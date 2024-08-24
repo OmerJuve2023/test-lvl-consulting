@@ -5,9 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import omer.solutions.testlvlconsulting.config.JwtUtils;
-import omer.solutions.testlvlconsulting.dto.LoginRequest;
-import omer.solutions.testlvlconsulting.dto.UserRequest;
-import omer.solutions.testlvlconsulting.dto.UserResponse;
+import omer.solutions.testlvlconsulting.dto.*;
 import omer.solutions.testlvlconsulting.entity.User;
 import omer.solutions.testlvlconsulting.service.UserService;
 import org.springframework.http.HttpHeaders;
@@ -64,5 +62,18 @@ public class AuthController {
     public ResponseEntity<?> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
+    }
+
+    @PutMapping("update")
+    public UserResponse updateUser(@RequestBody @Valid UpdateUserRequest request) {
+        log.debug("Update: " + request.toString());
+        return userService.updateUser(request);
+    }
+
+    @PostMapping("changePassword")
+    public String changePassword(@RequestBody @Valid UpdatePasswordRequest request) {
+        log.debug("Change password: {}", request.toString());
+        userService.updateUserPassword(request);
+        return "Password changed successfully!";
     }
 }

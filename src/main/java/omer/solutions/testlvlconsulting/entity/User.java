@@ -15,9 +15,9 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@Table(	name = "users",
+@Table(name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "email")
+                @UniqueConstraint(columnNames = "email"),
         })
 public class User implements UserDetails {
     @Id
@@ -46,7 +46,7 @@ public class User implements UserDetails {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(	name = "user_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @Builder.Default

@@ -1,6 +1,8 @@
 package omer.solutions.testlvlconsulting.service;
 
 import lombok.RequiredArgsConstructor;
+import omer.solutions.testlvlconsulting.dto.UpdatePasswordRequest;
+import omer.solutions.testlvlconsulting.dto.UpdateUserRequest;
 import omer.solutions.testlvlconsulting.dto.UserRequest;
 import omer.solutions.testlvlconsulting.dto.UserResponse;
 import omer.solutions.testlvlconsulting.entity.Role;
@@ -39,15 +41,13 @@ public class UserService {
         }
 
         User newUser = User.builder()
-                .username(userRequest.getEmail())
+                .username(userRequest.getUsername())
                 .email(userRequest.getEmail())
                 .password(encoder.encode(userRequest.getPassword()))
-
                 .firstName(userRequest.getFirstName())
                 .lastName(userRequest.getLastName())
                 .company(userRequest.getCompany())
                 .phone(userRequest.getPhone())
-
                 .authorities(authorities)
                 .build();
 
@@ -58,5 +58,33 @@ public class UserService {
         UserResponse userResponse = this.getUserById(id);
         userRepository.deleteById(id);
         return userResponse;
+    }
+
+    public UserResponse updateUser(UpdateUserRequest updateUserRequest) {
+        User user = userRepository.findById(updateUserRequest.getId()).orElseThrow(
+                () -> new UsernameNotFoundException("User with id " + updateUserRequest.getId() + " not found")
+        );
+        user.setEmail(updateUserRequest.getEmail());
+        user.setFirstName(updateUserRequest.getFirstName());
+        user.setLastName(updateUserRequest.getLastName());
+        user.setCompany(updateUserRequest.getCompany());
+        user.setPhone(updateUserRequest.getPhone());
+        user.setPassword(encoder.encode(user.getPassword()));
+        user.setAuthorities(user.getAuthorities());
+        user.setUsername(updateUserRequest.getUsername());
+        userRepository.save(user);
+        return UserResponse.toUserResponseFromUserWithDetails(user);
+    }
+
+    public void updateUserPassword(UpdatePasswordRequest updatePasswordRequest) {
+        User user = userRepository.findByEmail(String.valueOf(updatePasswordRequest.getEmail())).orElseThrow(
+                () -> new UsernameNotFoundException("User with email " + updatePasswordRequest.getEmail() + " not found")
+        );
+        if (encoder.matches(updatePasswordRequest.getOldPassword(), user.getPassword())) {
+            user.setPassword(encoder.encode(updatePasswordRequest.getNewPassword()));
+            userRepository.save(user);
+        } else {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
     }
 }

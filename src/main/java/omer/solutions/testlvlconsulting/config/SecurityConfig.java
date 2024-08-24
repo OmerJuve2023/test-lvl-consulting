@@ -46,6 +46,8 @@ public class SecurityConfig {
 
     private static final String[] WHITE_LIST_URL = {
             "/api/auth/**",
+            "/swagger-ui/**",
+            "/v3/api-docs/**",
     };
 
     @Bean
