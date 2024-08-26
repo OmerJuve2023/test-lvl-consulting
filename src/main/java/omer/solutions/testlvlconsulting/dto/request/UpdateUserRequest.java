@@ -1,9 +1,8 @@
-package omer.solutions.testlvlconsulting.dto;
+package omer.solutions.testlvlconsulting.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Builder
 @Getter

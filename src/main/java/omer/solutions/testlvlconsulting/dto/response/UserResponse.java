@@ -1,4 +1,4 @@
-package omer.solutions.testlvlconsulting.dto;
+package omer.solutions.testlvlconsulting.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -5,7 +5,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import omer.solutions.testlvlconsulting.config.JwtUtils;
-import omer.solutions.testlvlconsulting.dto.*;
+import omer.solutions.testlvlconsulting.dto.request.LoginRequest;
+import omer.solutions.testlvlconsulting.dto.request.UpdatePasswordRequest;
+import omer.solutions.testlvlconsulting.dto.request.UpdateUserRequest;
+import omer.solutions.testlvlconsulting.dto.request.UserRequest;
+import omer.solutions.testlvlconsulting.dto.response.UserResponse;
 import omer.solutions.testlvlconsulting.entity.User;
 import omer.solutions.testlvlconsulting.service.UserService;
 import org.springframework.http.HttpHeaders;
@@ -29,8 +33,10 @@ public class AuthController {
 
     @PostMapping("login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+        UserResponse userResponse = userService.getUserByEmail(loginRequest.getUsername());
+
         Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                .authenticate(new UsernamePasswordAuthenticationToken(userResponse.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
