@@ -85,7 +85,7 @@ Puedes importar la colección de Postman para probar los endpoints de la aplicac
 1. Crear las variables globales `session_cookie`,`username` y `password` en Postman.
 
    | Variable        | Type    | Initial value         | Current value         |
-         |-----------------|---------|-----------------------|-----------------------|
+   |-----------------|---------|-----------------------|-----------------------|
    | session_cookie  | default |                       |                       |
    | username        | default | user01@gmail.com       | user01@gmail.com       |
    | password        | default | rafael                | rafael                |
