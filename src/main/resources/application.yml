@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test # Perfil activo
+    active: dev # Perfil activo
   application:
     name: test-lvl-consulting
   main:
