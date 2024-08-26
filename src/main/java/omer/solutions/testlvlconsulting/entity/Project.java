@@ -1,5 +1,6 @@
 package omer.solutions.testlvlconsulting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class Project {
     private User user;
 
     @Lob
+    @JsonIgnore
     private byte[] image;
 
     public Project() {

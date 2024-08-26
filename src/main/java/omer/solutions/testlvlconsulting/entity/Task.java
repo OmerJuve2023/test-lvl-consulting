@@ -1,5 +1,6 @@
 package omer.solutions.testlvlconsulting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ public class Task {
     private String codigo;
     private String nombre;
     private String categoria;
+    @JsonIgnore
     @Lob
     private byte[] imagen;
     @ManyToOne
