@@ -48,6 +48,10 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
 
+    @Lob
+    @Column(name = "image")
+    private byte[] image;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

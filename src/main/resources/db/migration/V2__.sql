@@ -15,12 +15,16 @@ CREATE TABLE users
     company    VARCHAR(255),
     phone      VARCHAR(255),
     email      VARCHAR(255),
+    image      OID,
     enabled    BOOLEAN,
     CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
 ALTER TABLE users
     ADD CONSTRAINT uc_74165e195b2f7b25de690d14a UNIQUE (email);
+
+ALTER TABLE users
+    ADD CONSTRAINT uc_77584fbe74cc86922be2a3560 UNIQUE (username);
 
 ALTER TABLE user_roles
     ADD CONSTRAINT fk_userol_on_role FOREIGN KEY (role_id) REFERENCES roles (id);

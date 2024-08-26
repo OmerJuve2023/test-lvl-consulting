@@ -21,6 +21,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping(path = "api/auth")
 @Slf4j
@@ -53,13 +55,14 @@ public class AuthController {
                                 user.getFirstName(),
                                 user.getLastName(),
                                 user.getCompany(),
-                                user.getPhone()
+                                user.getPhone(),
+                                user.getImage()
                         )
                 );
     }
 
     @PostMapping("signup")
-    public UserResponse signupUser(@RequestBody @Valid UserRequest request) {
+    public UserResponse signupUser(@RequestBody @Valid UserRequest request) throws IOException {
         log.debug("Register: " + request.toString());
         return userService.createUser(request);
     }
@@ -71,7 +74,7 @@ public class AuthController {
     }
 
     @PutMapping("update")
-    public UserResponse updateUser(@RequestBody @Valid UpdateUserRequest request) {
+    public UserResponse updateUser(@RequestBody @Valid UpdateUserRequest request) throws IOException {
         log.debug("Update: " + request.toString());
         return userService.updateUser(request);
     }

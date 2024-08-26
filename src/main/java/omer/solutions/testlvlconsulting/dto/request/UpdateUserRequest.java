@@ -3,6 +3,7 @@ package omer.solutions.testlvlconsulting.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
@@ -15,5 +16,6 @@ public class UpdateUserRequest {
     private String company;
     private String phone;
     private String username;
+    private MultipartFile image;
 
 }

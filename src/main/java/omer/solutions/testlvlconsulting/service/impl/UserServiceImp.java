@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -35,7 +36,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserResponse createUser(UserRequest userRequest) {
+    public UserResponse createUser(UserRequest userRequest) throws IOException {
 
         Set<Role> authorities = new HashSet<>();
         for (Role roleString : userRequest.getAuthority()) {
@@ -52,6 +53,7 @@ public class UserServiceImp implements UserService {
                 .company(userRequest.getCompany())
                 .phone(userRequest.getPhone())
                 .authorities(authorities)
+                .image(userRequest.getImage().getBytes())
                 .build();
 
         return UserResponse.toUserResponseFromUserWithDetails(userRepository.save(newUser));
@@ -65,7 +67,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public UserResponse updateUser(UpdateUserRequest updateUserRequest) {
+    public UserResponse updateUser(UpdateUserRequest updateUserRequest) throws IOException {
         User user = userRepository.findById(updateUserRequest.getId()).orElseThrow(
                 () -> new UsernameNotFoundException("User with id " + updateUserRequest.getId() + " not found")
         );
@@ -77,6 +79,7 @@ public class UserServiceImp implements UserService {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setAuthorities(user.getAuthorities());
         user.setUsername(updateUserRequest.getUsername());
+        user.setImage(updateUserRequest.getImage().getBytes());
         userRepository.save(user);
         return UserResponse.toUserResponseFromUserWithDetails(user);
     }

@@ -21,6 +21,7 @@ public class UserResponse {
     private String lastName;
     private String company;
     private String phone;
+    private byte[] image;
 
     public static UserResponse toUserResponseFromUserWithDetails(User user) {
         return UserResponse.builder()
