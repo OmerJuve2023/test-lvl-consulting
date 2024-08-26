@@ -22,23 +22,36 @@ El proyecto está organizado en los siguientes paquetes:
 - Maven 3.6.3 o superior
 - PostgreSQL 12 o superior
 
+## Diagrama de la Base de Datos
+
+![img.png](img.png)
+
 ## Configuración de la Base de Datos
 
-Asegúrate de tener una base de datos PostgreSQL en funcionamiento y configura las credenciales en el archivo
-`application.properties`:
+Ejecutaremos este docker-compose para levantar un contenedor de PostgreSQL con la configuración necesaria para la
+aplicación.
 
-```properties
-# Database configuration
-spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
-spring.datasource.username=OmerSolutions
-spring.datasource.password=peru2020
-spring.datasource.driver-class-name=org.postgresql.Driver
-# Hibernate configuration
-spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-spring.jpa.hibernate.ddl-auto=none
-# Flyway configuration
-spring.flyway.enabled=true
-spring.flyway.locations=classpath:db/migration
+```yaml
+services:
+  postgres:
+    image: postgres:16.0
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: omerSolutions
+      POSTGRES_PASSWORD: peru2020
+      POSTGRES_DB: test-backendJava
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+volumes:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
 ```
 
 ## Ejecución
@@ -62,3 +75,52 @@ mvn clean install
 ```bash
 mvn spring-boot:run
 ```
+
+## Pruebas con Postman
+
+Puedes importar la colección de Postman para probar los endpoints de la aplicación.
+
+### Configuracion
+
+1. Crear las variables globales `session_cookie`,`username` y `password` en Postman.
+
+   | Variable        | Type    | Initial value         | Current value         |
+         |-----------------|---------|-----------------------|-----------------------|
+   | session_cookie  | default |                       |                       |
+   | username        | default | user01@gmail.com       | user01@gmail.com       |
+   | password        | default | rafael                | rafael                |
+
+2. En el script de cada coleccion esta el siguiente script para obtener el token de autenticacion
+
+```javascript
+if (!pm.globals.get('session_cookie')) {
+    // Realiza la solicitud de inicio de sesión
+    pm.sendRequest({
+        url: 'http://localhost:8080/api/auth/login',
+        method: 'POST',
+        body: {
+            mode: 'formdata',
+            formdata: [
+                {
+                    key: 'username',
+                    value: pm.globals.get("username")
+                },
+
+                {
+                    key: 'password',
+                    value: pm.globals.get("password")
+                }
+            ]
+        }
+    }, function (err, res) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        var cookie = res.headers.get('Set-Cookie');
+        pm.globals.set('session_cookie', cookie);
+    });
+}
+```
+
+La aplicación se ejecutará en `http://localhost:8080`.
