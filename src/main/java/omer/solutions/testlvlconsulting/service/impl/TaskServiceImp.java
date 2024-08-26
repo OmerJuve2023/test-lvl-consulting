@@ -126,4 +126,11 @@ public class TaskServiceImp implements TaskService {
         task.setImagen(file.getBytes());
         taskRepository.save(task);
     }
+
+    @Override
+    @Transactional
+    public List<TaskResponse> findByKeyword(String keyword) {
+        List<Task> tasks = taskRepository.findByKeyword(keyword);
+        return getTaskResponses(tasks);
+    }
 }

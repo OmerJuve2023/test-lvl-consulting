@@ -22,4 +22,6 @@ public interface TaskService {
     List<TaskResponse> listByIdUser(Long projectId);
 
     void uploadImage(Long id, MultipartFile file) throws IOException;
+
+    List<TaskResponse> findByKeyword(String keyword);
 }

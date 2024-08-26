@@ -69,4 +69,9 @@ public class TaskController {
         headers.setContentLength(taskResponse.getImagen().length);
         return new ResponseEntity<>(taskResponse.getImagen(), headers, HttpStatus.OK);
     }
+
+    @GetMapping("search")
+    public ResponseEntity<?> search(@RequestParam String keyword) {
+        return ResponseEntity.ok(taskService.findByKeyword(keyword));
+    }
 }
