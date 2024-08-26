@@ -3,6 +3,7 @@ package omer.solutions.testlvlconsulting.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -16,4 +17,5 @@ public class UpdateProjectRequest {
     private String estado;
     private Date fechaInicio;
     private Date fechaFIn;
+    private MultipartFile image;
 }

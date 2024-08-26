@@ -31,6 +31,9 @@ public class Project {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Lob
+    private byte[] image;
+
     public Project() {
     }
 }

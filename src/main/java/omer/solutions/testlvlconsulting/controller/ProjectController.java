@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping("create")
-    public ProjectReponse createProject(@RequestBody ProjectRequest projectRequest) {
+    public ProjectReponse createProject(@RequestBody ProjectRequest projectRequest) throws IOException {
         return projectService.createProject(projectRequest);
     }
 
@@ -29,7 +31,7 @@ public class ProjectController {
     }
 
     @PutMapping("update")
-    public ResponseEntity<?> updateProject(@RequestBody UpdateProjectRequest updateProjectRequest) {
+    public ResponseEntity<?> updateProject(@RequestBody UpdateProjectRequest updateProjectRequest) throws IOException {
         return ResponseEntity.ok(projectService.updateProject(updateProjectRequest));
     }
 

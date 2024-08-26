@@ -3,7 +3,6 @@ package omer.solutions.testlvlconsulting.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import omer.solutions.testlvlconsulting.entity.Project;
 
 import java.util.Date;
 
@@ -19,4 +18,5 @@ public class ProjectReponse {
     private Date fechaInicio;
     private Date fechaFin;
     private Long idUser;
+    private byte[] image;
 }

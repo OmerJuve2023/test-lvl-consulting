@@ -10,6 +10,7 @@ import omer.solutions.testlvlconsulting.repository.UserRepository;
 import omer.solutions.testlvlconsulting.service.ProjectService;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -30,7 +31,7 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public ProjectReponse createProject(ProjectRequest projectRequest) {
+    public ProjectReponse createProject(ProjectRequest projectRequest) throws IOException {
         User user = userRepository.findById(projectRequest.getIdUser()).orElseThrow();
 
         Project project = Project.builder()
@@ -53,7 +54,8 @@ public class ProjectServiceImp implements ProjectService {
                 project.getEstado(),
                 project.getFechaInicio(),
                 project.getFechaFin(),
-                project.getUser().getId()
+                project.getUser().getId(),
+                project.getImage()
         );
     }
 
@@ -65,13 +67,14 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public ProjectReponse updateProject(UpdateProjectRequest updateProjectRequest) {
+    public ProjectReponse updateProject(UpdateProjectRequest updateProjectRequest) throws IOException {
         Project project = projectRepository.findById(updateProjectRequest.getId()).orElseThrow();
         project.setNombre(updateProjectRequest.getNombre());
         project.setDescripcion(updateProjectRequest.getDescripcion());
         project.setEstado(updateProjectRequest.getEstado());
         project.setFechaInicio(updateProjectRequest.getFechaInicio());
         project.setFechaFin(updateProjectRequest.getFechaFIn());
+        project.setImage(updateProjectRequest.getImage().getBytes());
         projectRepository.save(project);
         return getProjectReponse(project);
     }
@@ -87,7 +90,8 @@ public class ProjectServiceImp implements ProjectService {
                         project.getEstado(),
                         project.getFechaInicio(),
                         project.getFechaFin(),
-                        project.getUser().getId()
+                        project.getUser().getId(),
+                        project.getImage()
                 )
         ).toList();
     }
@@ -103,9 +107,10 @@ public class ProjectServiceImp implements ProjectService {
                         project.getEstado(),
                         project.getFechaInicio(),
                         project.getFechaFin(),
-                        project.getUser().getId()
+                        project.getUser().getId(),
+                        project.getImage()
                 )
         ).toList();
-
     }
+
 }
