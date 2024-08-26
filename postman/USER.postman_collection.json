@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "5901cbc1-97a7-470b-a734-8bc560552d65",
+		"name": "USER",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24550563",
+		"_collection_link": "https://www.postman.com/dark-zodiac-775856/workspace/test-lvl-consulting/collection/24550563-5901cbc1-97a7-470b-a734-8bc560552d65?action=share&source=collection_link&creator=24550563"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"user01@gmail.com\",\r\n  \"password\": \"rafael\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/login?file",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					],
+					"query": [
+						{
+							"key": "file",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"user01\",\r\n  \"email\": \"user01@gmail.com\",\r\n  \"password\": \"rafael\",\r\n  \"firstName\": \"jose\",\r\n  \"lastName\": \"machin\",\r\n  \"company\": \"Hersam Aceros\",\r\n  \"phone\": \"98012653\",\r\n  \"authority\": [\r\n    {\r\n     \"id\": 1,\r\n     \"authority\": \"ROLE_ADMIN\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/auth/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change password",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"jose@gmail.com\",\r\n  \"oldPassword\": \"rafael\",\r\n  \"newPassword\": \"12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/changePassword",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"changePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "donwload image",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/auth/downloadImage?id=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"downloadImage"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "postman-cloud:///1ef6360c-9fe9-4650-bf3b-3115a294c73d"
+						},
+						{
+							"key": "id",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/uploadImage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"uploadImage"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": 2,\r\n  \"email\": \"joselito@gmail.com\",\r\n  \"firstName\": \"first\",\r\n  \"lastName\": \"last\",\r\n  \"company\": \"peche\",\r\n  \"phone\": \"978 080 426\",\r\n  \"username\": \"pepe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/auth/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/auth/delete?id=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"auth",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "inherit"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"if (!pm.globals.get('session_cookie')) {\r",
+					"    // Realiza la solicitud de inicio de sesión\r",
+					"    pm.sendRequest({\r",
+					"        url: 'http://localhost:8080/api/auth/login',\r",
+					"        method: 'POST',\r",
+					"        body: {\r",
+					"            mode: 'formdata',\r",
+					"            formdata: [\r",
+					"                { key: 'username',\r",
+					"                 value: pm.globals.get(\"username\") },\r",
+					"\r",
+					"                { key: 'password', \r",
+					"                value: pm.globals.get(\"password\")  }\r",
+					"            ]\r",
+					"        }\r",
+					"    }, function (err, res) {\r",
+					"        if (err) {\r",
+					"            console.log(err);\r",
+					"            return;\r",
+					"        }\r",
+					"        var cookie = res.headers.get('Set-Cookie');\r",
+					"        pm.globals.set('session_cookie', cookie);\r",
+					"    });\r",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"\r",
+					""
+				]
+			}
+		}
+	]
+}
