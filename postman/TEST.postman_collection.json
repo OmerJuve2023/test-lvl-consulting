@@ -1,0 +1,119 @@
+{
+	"info": {
+		"_postman_id": "1d0de35f-3b90-442d-8e4d-bb8d3b2323c6",
+		"name": "TEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24550563",
+		"_collection_link": "https://www.postman.com/dark-zodiac-775856/workspace/test-lvl-consulting/collection/24550563-1d0de35f-3b90-442d-8e4d-bb8d3b2323c6?action=share&source=collection_link&creator=24550563"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/test/admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"test",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "all",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/test/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"test",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/test/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"test",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					"if (!pm.globals.get('session_cookie')) {\r",
+					"    // Realiza la solicitud de inicio de sesión\r",
+					"    pm.sendRequest({\r",
+					"        url: 'http://localhost:8080/api/auth/login',\r",
+					"        method: 'POST',\r",
+					"        body: {\r",
+					"            mode: 'formdata',\r",
+					"            formdata: [\r",
+					"                { key: 'username',\r",
+					"                 value: pm.globals.get(\"username\") },\r",
+					"\r",
+					"                { key: 'password', \r",
+					"                value: pm.globals.get(\"password\")  }\r",
+					"            ]\r",
+					"        }\r",
+					"    }, function (err, res) {\r",
+					"        if (err) {\r",
+					"            console.log(err);\r",
+					"            return;\r",
+					"        }\r",
+					"        var cookie = res.headers.get('Set-Cookie');\r",
+					"        pm.globals.set('session_cookie', cookie);\r",
+					"    });\r",
+					"}"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
