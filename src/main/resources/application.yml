@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: test-lvl-consulting
+  main:
+    banner-mode: off  # Desactiva el banner de inicio de Spring Boot
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Especifica el dialecto de Hibernate para PostgreSQL
+    hibernate:
+      ddl-auto: update  # Actualiza el esquema de la base de datos en cada inicio
+    show-sql: true  # Muestra las consultas SQL en la consola
+
+  flyway:
+    clean-disabled: false  # Permite la limpieza de la base de datos
+    locations: classpath:db/migration,classpath:db/testdata  # Ubicaciones de los scripts de migración
+    baseline-on-migrate: true  # Crea una línea base en la migración si no hay una
+    clean-on-validation-error: true  # Limpia la base de datos si hay un error de validación
+    enabled: true  # Habilita Flyway
+    encoding: utf-8  # Codificación de los scripts de migración
+
+logging:
+  level:
+    org:
+      springframework:
+        web: debug  # Nivel de log para el paquete org.springframework.web
+
+jwt:
+  jwtCookieName: access_token # Nombre de la cookie que contiene el token JWT
+  jwtSecret: 7638792F423F4528482B4D6251655368566D597133743677397A24432646294A # Clave secreta para firmar el token JWT
+  jwtExpirationMs: 86400000 # Tiempo de expiración del token JWT en milisegundos
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui/index.html
+  api-docs:
+    enabled: true
