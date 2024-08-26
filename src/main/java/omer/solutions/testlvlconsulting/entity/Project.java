@@ -1,6 +1,7 @@
 package omer.solutions.testlvlconsulting.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Data
 @Table(name = "proyect")
 @Builder
+@AllArgsConstructor
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +30,7 @@ public class Project {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    public Project() {
+    }
 }

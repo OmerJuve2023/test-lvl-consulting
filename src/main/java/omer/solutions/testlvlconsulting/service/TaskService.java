@@ -7,7 +7,7 @@ import omer.solutions.testlvlconsulting.dto.response.TaskResponse;
 import java.util.List;
 
 public interface TaskService {
-    TaskResponse getTaskById(Long id);
+    TaskResponse getTaskById(Long id, Long idUser);
 
     TaskResponse createTask(TaskRequest taskRequest);
 
@@ -16,4 +16,6 @@ public interface TaskService {
     TaskResponse updateTask(UpdateTaskRequest updateTaskRequest);
 
     List<TaskResponse> listAll();
+
+    List<TaskResponse> listByIdUser(Long projectId);
 }

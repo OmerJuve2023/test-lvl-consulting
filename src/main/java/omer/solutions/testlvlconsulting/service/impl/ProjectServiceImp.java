@@ -24,9 +24,9 @@ public class ProjectServiceImp implements ProjectService {
     }
 
     @Override
-    public ProjectReponse getProjectById(Long id) {
-        Project project = projectRepository.findById(id).orElseThrow();
-        return new ProjectReponse(project);
+    public ProjectReponse getProjectById(Long id, Long idUser) {
+        Project project = projectRepository.findByIdAndUser(id, idUser);
+        return getProjectReponse(project);
     }
 
     @Override
@@ -42,14 +42,26 @@ public class ProjectServiceImp implements ProjectService {
                 .user(user)
                 .build();
         projectRepository.save(project);
-        return new ProjectReponse(project);
+        return getProjectReponse(project);
+    }
+
+    private static ProjectReponse getProjectReponse(Project project) {
+        return new ProjectReponse(
+                project.getId(),
+                project.getNombre(),
+                project.getDescripcion(),
+                project.getEstado(),
+                project.getFechaInicio(),
+                project.getFechaFin(),
+                project.getUser().getId()
+        );
     }
 
     @Override
     public ProjectReponse deleteProject(Long id) {
         Project project = projectRepository.findById(id).orElseThrow();
         projectRepository.deleteById(id);
-        return new ProjectReponse(project);
+        return getProjectReponse(project);
     }
 
     @Override
@@ -61,18 +73,39 @@ public class ProjectServiceImp implements ProjectService {
         project.setFechaInicio(updateProjectRequest.getFechaInicio());
         project.setFechaFin(updateProjectRequest.getFechaFIn());
         projectRepository.save(project);
-        return new ProjectReponse(project);
+        return getProjectReponse(project);
     }
 
     @Override
     public List<ProjectReponse> listAll() {
         List<Project> projects = projectRepository.findAll();
-        return projects.stream().map(ProjectReponse::new).toList();
+        return projects.stream().map(
+                project -> new ProjectReponse(
+                        project.getId(),
+                        project.getNombre(),
+                        project.getDescripcion(),
+                        project.getEstado(),
+                        project.getFechaInicio(),
+                        project.getFechaFin(),
+                        project.getUser().getId()
+                )
+        ).toList();
     }
 
     @Override
-    public List<ProjectReponse> listByIdUser(Long id) {
-        User user = projectRepository.findById(id).orElseThrow().getUser();
-        return projectRepository.findAllByUser(user.getId());
+    public List<ProjectReponse> listByIdUser(Long userId) {
+        List<Project> projects = projectRepository.findAllByUser(userId);
+        return projects.stream().map(
+                project -> new ProjectReponse(
+                        project.getId(),
+                        project.getNombre(),
+                        project.getDescripcion(),
+                        project.getEstado(),
+                        project.getFechaInicio(),
+                        project.getFechaFin(),
+                        project.getUser().getId()
+                )
+        ).toList();
+
     }
 }

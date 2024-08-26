@@ -25,13 +25,19 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public TaskResponse getTaskById(Long id) {
-        return TaskResponse.toTaskResponseFromTaskWithDetails(
-                taskRepository.findById(id).orElseThrow(
-                        () -> new UsernameNotFoundException("Task with id " + id + " not found")
-                )
-        );
+    public TaskResponse getTaskById(Long id, Long idUser) {
+        Task task = taskRepository.findByIdAndUser(id, idUser);
+        return getTaskResponse(task);
+    }
 
+    private static TaskResponse getTaskResponse(Task task) {
+        return new TaskResponse(
+                task.getId().toString(),
+                task.getCodigo(),
+                task.getNombre(),
+                task.getCategoria(),
+                task.getProyecto()
+        );
     }
 
     @Override
@@ -41,34 +47,63 @@ public class TaskServiceImp implements TaskService {
         );
         Task newTask = Task.builder()
                 .nombre(taskRequest.getNombre())
+                .codigo(taskRequest.getCodigo())
+                .categoria(taskRequest.getCategoria())
                 .proyecto(project)
                 .build();
-        return TaskResponse.toTaskResponseFromTaskWithDetails(taskRepository.save(newTask));
+        taskRepository.save(newTask);
+        return getTaskResponse(newTask);
     }
 
     @Override
     public TaskResponse deleteTask(Long id) {
-        TaskResponse taskResponse = getTaskById(id);
-        taskRepository.deleteById(id);
-        return taskResponse;
+        Task task = taskRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("Task with id " + id + " not found")
+        );
+        return getTaskResponse(task);
     }
 
     @Override
     public TaskResponse updateTask(UpdateTaskRequest updateTaskRequest) {
-        Task task = taskRepository.findById(updateTaskRequest.getIdTask()).orElseThrow(
-                () -> new UsernameNotFoundException("Task with id " + updateTaskRequest.getIdProyecto() + " not found")
-        );
         Project project = projectRepository.findById(updateTaskRequest.getIdProyecto()).orElseThrow(
                 () -> new UsernameNotFoundException("Project with id " + updateTaskRequest.getIdProyecto() + " not found")
         );
+        Task task = taskRepository.findById(updateTaskRequest.getId()).orElseThrow(
+                () -> new UsernameNotFoundException("Task with id " + updateTaskRequest.getId() + " not found")
+        );
         task.setNombre(updateTaskRequest.getNombre());
         task.setProyecto(project);
-        return TaskResponse.toTaskResponseFromTaskWithDetails(taskRepository.save(task));
+        task.setCategoria(updateTaskRequest.getCategoria());
+        task.setCodigo(updateTaskRequest.getCodigo());
+        taskRepository.save(task);
+        return getTaskResponse(task);
     }
 
     @Override
     public List<TaskResponse> listAll() {
         List<Task> tasks = taskRepository.findAll();
-        return tasks.stream().map(TaskResponse::toTaskResponseFromTaskWithDetails).toList();
+        return tasks.stream().map(
+                task -> new TaskResponse(
+                        task.getId().toString(),
+                        task.getCodigo(),
+                        task.getNombre(),
+                        task.getCategoria(),
+                        task.getProyecto()
+                )
+        ).toList();
+    }
+
+    @Override
+    public List<TaskResponse> listByIdUser(Long projectId) {
+        List<Task> tasks = taskRepository.findAllByUser(projectId);
+        return tasks.stream().map(
+                task -> new TaskResponse(
+                        task.getId().toString(),
+                        task.getCodigo(),
+                        task.getNombre(),
+                        task.getCategoria(),
+                        task.getProyecto()
+                )
+        ).toList();
     }
 }

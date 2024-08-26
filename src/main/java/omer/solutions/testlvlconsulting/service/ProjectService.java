@@ -7,7 +7,7 @@ import omer.solutions.testlvlconsulting.dto.response.ProjectReponse;
 import java.util.List;
 
 public interface ProjectService {
-    ProjectReponse getProjectById(Long id);
+    ProjectReponse getProjectById(Long id,Long idUser);
 
     ProjectReponse createProject(ProjectRequest projectRequest);
 

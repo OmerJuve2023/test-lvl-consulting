@@ -7,5 +7,7 @@ import lombok.Getter;
 @Getter
 public class TaskRequest {
     private String nombre;
+    private String codigo;
+    private String categoria;
     private Long idProject;
 }

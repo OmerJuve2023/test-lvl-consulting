@@ -1,5 +1,7 @@
 package omer.solutions.testlvlconsulting.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -27,7 +29,7 @@ public class User implements UserDetails {
 
     @Column(name = "username")
     private String username;
-
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 

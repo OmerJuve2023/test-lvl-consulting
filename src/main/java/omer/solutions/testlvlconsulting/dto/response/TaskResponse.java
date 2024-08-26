@@ -4,29 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import omer.solutions.testlvlconsulting.entity.Project;
-import omer.solutions.testlvlconsulting.entity.Task;
-
-import java.util.Optional;
 
 @Getter
 @Builder
+@AllArgsConstructor
 public class TaskResponse {
 
+    private String id;
+    private String codigo;
     private String nombre;
-    private Long proyectoId;
-
-    public TaskResponse(String nombre, Long proyectoId) {
-        this.nombre = nombre;
-        this.proyectoId = proyectoId;
-    }
-
-    public static TaskResponse toTaskResponseFromTaskWithDetails(Task task) {
-        return new TaskResponse(
-                task.getNombre(),
-                Optional.ofNullable(task.getProyecto())
-                        .map(Project::getId)
-                        .orElse(null)
-        );
-    }
+    private String categoria;
+    private Project proyecto;
 
 }

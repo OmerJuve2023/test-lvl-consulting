@@ -6,6 +6,7 @@ import omer.solutions.testlvlconsulting.dto.request.TaskRequest;
 import omer.solutions.testlvlconsulting.dto.request.UpdateTaskRequest;
 import omer.solutions.testlvlconsulting.service.TaskService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,22 +22,28 @@ public class TaskController {
         return ResponseEntity.ok(taskService.createTask(taskRequest));
     }
 
-    @PostMapping("delete")
-    public ResponseEntity<?> deleteTask(@RequestBody Long id) {
+    @DeleteMapping("delete")
+    public ResponseEntity<?> deleteTask(@RequestParam Long id) {
         return ResponseEntity.ok(taskService.deleteTask(id));
     }
 
     @GetMapping("get")
-    public ResponseEntity<?> getTaskById(@RequestParam Long id) {
-        return ResponseEntity.ok(taskService.getTaskById(id));
+    public ResponseEntity<?> getTaskById(@RequestParam Long id, @RequestParam Long idUser) {
+        return ResponseEntity.ok(taskService.getTaskById(id, idUser));
     }
 
+    @GetMapping("getbyuser")
+    public ResponseEntity<?> getTasksByIdUser(@RequestParam Long id) {
+        return ResponseEntity.ok(taskService.listByIdUser(id));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("getall")
     public ResponseEntity<?> getAllTasks() {
         return ResponseEntity.ok(taskService.listAll());
     }
 
-    @PostMapping("update")
+    @PutMapping("update")
     public ResponseEntity<?> updateTask(@RequestBody UpdateTaskRequest updateTaskRequest) {
         return ResponseEntity.ok(taskService.updateTask(updateTaskRequest));
     }
