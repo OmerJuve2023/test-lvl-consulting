@@ -15,5 +15,5 @@ public class TaskResponse {
     private String nombre;
     private String categoria;
     private Project proyecto;
-
+    private byte[] imagen;
 }

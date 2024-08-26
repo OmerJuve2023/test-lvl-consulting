@@ -19,7 +19,8 @@ public class Task {
     private String codigo;
     private String nombre;
     private String categoria;
-
+    @Lob
+    private byte[] imagen;
     @ManyToOne
     @JoinColumn(name = "proyecto_id")
     private Project proyecto;

@@ -50,6 +50,7 @@ public class User implements UserDetails {
 
     @Lob
     @Column(name = "image")
+    @JsonIgnore
     private byte[] image;
 
     @ManyToMany(fetch = FetchType.EAGER)

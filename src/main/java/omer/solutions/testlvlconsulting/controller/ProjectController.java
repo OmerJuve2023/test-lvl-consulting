@@ -6,9 +6,13 @@ import omer.solutions.testlvlconsulting.dto.request.ProjectRequest;
 import omer.solutions.testlvlconsulting.dto.request.UpdateProjectRequest;
 import omer.solutions.testlvlconsulting.dto.response.ProjectReponse;
 import omer.solutions.testlvlconsulting.service.ProjectService;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -49,5 +53,20 @@ public class ProjectController {
     @GetMapping("getbyuser")
     public ResponseEntity<?> getProjectsByIdUser(@RequestParam Long id) {
         return ResponseEntity.ok(projectService.listByIdUser(id));
+    }
+
+    @PostMapping("uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestParam Long id, @RequestParam("file") MultipartFile file) throws IOException {
+        projectService.uploadImage(id, file);
+        return ResponseEntity.ok().body("Image uploaded successfully");
+    }
+
+    @GetMapping("donwloadImage")
+    public ResponseEntity<byte[]> downloadImage(@RequestParam Long id, @RequestParam Long idUser) {
+        ProjectReponse projectReponse = projectService.getProjectById(id, idUser);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setContentLength(projectReponse.getImage().length);
+        return new ResponseEntity<>(projectReponse.getImage(), headers, HttpStatus.OK);
     }
 }

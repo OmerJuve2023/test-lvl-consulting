@@ -1,6 +1,7 @@
 package omer.solutions.testlvlconsulting.controller;
 
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,14 +13,13 @@ import omer.solutions.testlvlconsulting.dto.request.UserRequest;
 import omer.solutions.testlvlconsulting.dto.response.UserResponse;
 import omer.solutions.testlvlconsulting.entity.User;
 import omer.solutions.testlvlconsulting.service.UserService;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -34,6 +34,7 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("login")
+    @Transactional
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         UserResponse userResponse = userService.getUserByEmail(loginRequest.getUsername());
 
@@ -63,7 +64,7 @@ public class AuthController {
 
     @PostMapping("signup")
     public UserResponse signupUser(@RequestBody @Valid UserRequest request) throws IOException {
-        log.debug("Register: " + request.toString());
+        log.debug("Register: {}", request.toString());
         return userService.createUser(request);
     }
 
@@ -75,7 +76,7 @@ public class AuthController {
 
     @PutMapping("update")
     public UserResponse updateUser(@RequestBody @Valid UpdateUserRequest request) throws IOException {
-        log.debug("Update: " + request.toString());
+        log.debug("Update: {}", request.toString());
         return userService.updateUser(request);
     }
 
@@ -84,5 +85,28 @@ public class AuthController {
         log.debug("Change password: {}", request.toString());
         userService.updateUserPassword(request);
         return "Password changed successfully!";
+    }
+
+    @DeleteMapping("delete")
+    public UserResponse deleteUser(@RequestParam Long id) {
+        log.debug("Delete user with id: {}", id);
+        return userService.deleteUser(id);
+    }
+
+    @PostMapping("uploadImage")
+    public ResponseEntity<String> uploadImage(@RequestParam Long id, @RequestParam MultipartFile file) throws IOException {
+        log.debug("Upload image for user with id: {}", id);
+        userService.uploadImage(id, file);
+        return ResponseEntity.ok().body("Image uploaded successfully!");
+    }
+
+    @GetMapping("downloadImage")
+    public ResponseEntity<byte[]> downloadImage(@RequestParam Long id) {
+        log.debug("Download image for user with id: {}", id);
+        UserResponse user = userService.getUserById(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
+        headers.setContentLength(user.getImage().length);
+        return new ResponseEntity<>(user.getImage(), headers, HttpStatus.OK);
     }
 }

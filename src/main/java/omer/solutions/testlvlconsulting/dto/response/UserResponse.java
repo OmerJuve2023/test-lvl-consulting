@@ -1,5 +1,6 @@
 package omer.solutions.testlvlconsulting.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class UserResponse {
     private String lastName;
     private String company;
     private String phone;
+    @JsonIgnore
     private byte[] image;
 
     public static UserResponse toUserResponseFromUserWithDetails(User user) {
@@ -33,6 +35,7 @@ public class UserResponse {
                 .lastName(user.getLastName())
                 .company(user.getCompany())
                 .phone(user.getPhone())
+                .image(user.getImage())
                 .build();
     }
 }

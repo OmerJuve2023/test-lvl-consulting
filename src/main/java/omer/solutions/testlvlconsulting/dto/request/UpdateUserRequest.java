@@ -16,6 +16,5 @@ public class UpdateUserRequest {
     private String company;
     private String phone;
     private String username;
-    private MultipartFile image;
 
 }

@@ -1,5 +1,6 @@
 package omer.solutions.testlvlconsulting.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +19,6 @@ public class ProjectReponse {
     private Date fechaInicio;
     private Date fechaFin;
     private Long idUser;
+    @JsonIgnore
     private byte[] image;
 }

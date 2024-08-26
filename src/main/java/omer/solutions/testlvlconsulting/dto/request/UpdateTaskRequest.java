@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import omer.solutions.testlvlconsulting.entity.Project;
+import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
@@ -14,4 +15,5 @@ public class UpdateTaskRequest {
     private String nombre;
     private String categoria;
     private Long idProyecto;
+    private MultipartFile imagen;
 }

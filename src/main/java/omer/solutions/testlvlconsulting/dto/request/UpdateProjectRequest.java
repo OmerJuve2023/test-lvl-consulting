@@ -17,5 +17,4 @@ public class UpdateProjectRequest {
     private String estado;
     private Date fechaInicio;
     private Date fechaFIn;
-    private MultipartFile image;
 }

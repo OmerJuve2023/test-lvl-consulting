@@ -4,6 +4,7 @@ CREATE TABLE task
     codigo      VARCHAR(255),
     nombre      VARCHAR(255),
     categoria   VARCHAR(255),
+    imagen      OID,
     proyecto_id BIGINT,
     CONSTRAINT pk_task PRIMARY KEY (id)
 );

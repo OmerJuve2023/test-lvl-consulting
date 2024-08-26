@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @Slf4j
 @RequiredArgsConstructor
@@ -18,7 +20,7 @@ public class TaskController {
     private final TaskService taskService;
 
     @PostMapping("create")
-    public ResponseEntity<?> createTask(@RequestBody TaskRequest taskRequest) {
+    public ResponseEntity<?> createTask(@RequestBody TaskRequest taskRequest) throws IOException {
         return ResponseEntity.ok(taskService.createTask(taskRequest));
     }
 
@@ -44,7 +46,7 @@ public class TaskController {
     }
 
     @PutMapping("update")
-    public ResponseEntity<?> updateTask(@RequestBody UpdateTaskRequest updateTaskRequest) {
+    public ResponseEntity<?> updateTask(@RequestBody UpdateTaskRequest updateTaskRequest) throws IOException {
         return ResponseEntity.ok(taskService.updateTask(updateTaskRequest));
     }
 }

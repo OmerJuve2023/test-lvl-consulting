@@ -1,5 +1,6 @@
 package omer.solutions.testlvlconsulting.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import omer.solutions.testlvlconsulting.dto.request.UpdatePasswordRequest;
 import omer.solutions.testlvlconsulting.dto.request.UpdateUserRequest;
@@ -13,11 +14,14 @@ import omer.solutions.testlvlconsulting.service.UserService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+
+import static omer.solutions.testlvlconsulting.utils.Images.uploadImageDefault;
 
 @Service
 @RequiredArgsConstructor
@@ -53,15 +57,19 @@ public class UserServiceImp implements UserService {
                 .company(userRequest.getCompany())
                 .phone(userRequest.getPhone())
                 .authorities(authorities)
-                .image(userRequest.getImage().getBytes())
+                .image(uploadImageDefault("static/default.png"))
                 .build();
 
         return UserResponse.toUserResponseFromUserWithDetails(userRepository.save(newUser));
     }
 
     @Override
+    @Transactional
     public UserResponse deleteUser(Long id) {
         UserResponse userResponse = this.getUserById(id);
+        userRepository.deleteUserTask(id);
+        userRepository.deleteUserProject(id);
+        userRepository.deleteUserRole(id);
         userRepository.deleteById(id);
         return userResponse;
     }
@@ -79,7 +87,6 @@ public class UserServiceImp implements UserService {
         user.setPassword(encoder.encode(user.getPassword()));
         user.setAuthorities(user.getAuthorities());
         user.setUsername(updateUserRequest.getUsername());
-        user.setImage(updateUserRequest.getImage().getBytes());
         userRepository.save(user);
         return UserResponse.toUserResponseFromUserWithDetails(user);
     }
@@ -102,4 +109,14 @@ public class UserServiceImp implements UserService {
         return UserResponse.toUserResponseFromUserWithDetails(
                 userRepository.findByEmail(username));
     }
+
+    @Override
+    public void uploadImage(Long id, MultipartFile file) throws IOException {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User with id " + id + " not found")
+        );
+        user.setImage(file.getBytes());
+        userRepository.save(user);
+    }
+
 }

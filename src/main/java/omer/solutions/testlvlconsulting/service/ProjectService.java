@@ -3,6 +3,7 @@ package omer.solutions.testlvlconsulting.service;
 import omer.solutions.testlvlconsulting.dto.request.ProjectRequest;
 import omer.solutions.testlvlconsulting.dto.request.UpdateProjectRequest;
 import omer.solutions.testlvlconsulting.dto.response.ProjectReponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,5 +20,7 @@ public interface ProjectService {
     List<ProjectReponse> listAll();
 
     List<ProjectReponse> listByIdUser(Long id);
+
+    void uploadImage(Long id, MultipartFile file) throws IOException;
 
 }

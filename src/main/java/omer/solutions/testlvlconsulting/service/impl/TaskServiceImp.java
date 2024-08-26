@@ -8,9 +8,12 @@ import omer.solutions.testlvlconsulting.entity.Task;
 import omer.solutions.testlvlconsulting.repository.ProjectRepository;
 import omer.solutions.testlvlconsulting.repository.TaskRepository;
 import omer.solutions.testlvlconsulting.service.TaskService;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 @Service
@@ -36,21 +39,38 @@ public class TaskServiceImp implements TaskService {
                 task.getCodigo(),
                 task.getNombre(),
                 task.getCategoria(),
-                task.getProyecto()
+                task.getProyecto(),
+                task.getImagen()
         );
     }
 
     @Override
-    public TaskResponse createTask(TaskRequest taskRequest) {
+    public TaskResponse createTask(TaskRequest taskRequest) throws IOException {
+        byte[] defaultImage = null;
+        Task newTask = null;
         Project project = projectRepository.findById(taskRequest.getIdProject()).orElseThrow(
                 () -> new UsernameNotFoundException("Project with id " + taskRequest.getIdProject() + " not found")
         );
-        Task newTask = Task.builder()
-                .nombre(taskRequest.getNombre())
-                .codigo(taskRequest.getCodigo())
-                .categoria(taskRequest.getCategoria())
-                .proyecto(project)
-                .build();
+
+        if (taskRequest.getImage() == null || taskRequest.getImage().isEmpty()) {
+            ClassPathResource classPathResource = new ClassPathResource("static/default.png");
+            defaultImage = Files.readAllBytes(classPathResource.getFile().toPath());
+            newTask = Task.builder()
+                    .nombre(taskRequest.getNombre())
+                    .codigo(taskRequest.getCodigo())
+                    .categoria(taskRequest.getCategoria())
+                    .proyecto(project)
+                    .imagen(defaultImage)
+                    .build();
+        } else {
+            newTask = Task.builder()
+                    .nombre(taskRequest.getNombre())
+                    .codigo(taskRequest.getCodigo())
+                    .categoria(taskRequest.getCategoria())
+                    .proyecto(project)
+                    .imagen(taskRequest.getImage().getBytes())
+                    .build();
+        }
         taskRepository.save(newTask);
         return getTaskResponse(newTask);
     }
@@ -64,7 +84,7 @@ public class TaskServiceImp implements TaskService {
     }
 
     @Override
-    public TaskResponse updateTask(UpdateTaskRequest updateTaskRequest) {
+    public TaskResponse updateTask(UpdateTaskRequest updateTaskRequest) throws IOException {
         Project project = projectRepository.findById(updateTaskRequest.getIdProyecto()).orElseThrow(
                 () -> new UsernameNotFoundException("Project with id " + updateTaskRequest.getIdProyecto() + " not found")
         );
@@ -75,6 +95,7 @@ public class TaskServiceImp implements TaskService {
         task.setProyecto(project);
         task.setCategoria(updateTaskRequest.getCategoria());
         task.setCodigo(updateTaskRequest.getCodigo());
+        task.setImagen(updateTaskRequest.getImagen().getBytes());
         taskRepository.save(task);
         return getTaskResponse(task);
     }
@@ -88,7 +109,8 @@ public class TaskServiceImp implements TaskService {
                         task.getCodigo(),
                         task.getNombre(),
                         task.getCategoria(),
-                        task.getProyecto()
+                        task.getProyecto(),
+                        task.getImagen()
                 )
         ).toList();
     }
@@ -102,7 +124,8 @@ public class TaskServiceImp implements TaskService {
                         task.getCodigo(),
                         task.getNombre(),
                         task.getCategoria(),
-                        task.getProyecto()
+                        task.getProyecto(),
+                        task.getImagen()
                 )
         ).toList();
     }
