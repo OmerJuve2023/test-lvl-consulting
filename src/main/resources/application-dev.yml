@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Especifica el dialecto de Hibernate para PostgreSQL
+    hibernate:
+      ddl-auto: update  # Actualiza el esquema de la base de datos en cada inicio
+    show-sql: true  # Muestra las consultas SQL en la consola

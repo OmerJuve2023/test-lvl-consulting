@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: test # Perfil activo
   application:
     name: test-lvl-consulting
   main:
@@ -14,11 +16,11 @@ spring:
 
   flyway:
     clean-disabled: false  # Permite la limpieza de la base de datos
-    locations: classpath:db/migration,classpath:db/testdata  # Ubicaciones de los scripts de migración
-    baseline-on-migrate: true  # Crea una línea base en la migración si no hay una
-    clean-on-validation-error: true  # Limpia la base de datos si hay un error de validación
+    locations: classpath:db/migration,classpath:db/testdata  # Ubicaciones de los scripts de migraciï¿½n
+    baseline-on-migrate: true  # Crea una lï¿½nea base en la migraciï¿½n si no hay una
+    clean-on-validation-error: true  # Limpia la base de datos si hay un error de validaciï¿½n
     enabled: true  # Habilita Flyway
-    encoding: utf-8  # Codificación de los scripts de migración
+    encoding: utf-8  # Codificaciï¿½n de los scripts de migraciï¿½n
 
 logging:
   level:
@@ -29,7 +31,7 @@ logging:
 jwt:
   jwtCookieName: access_token # Nombre de la cookie que contiene el token JWT
   jwtSecret: 7638792F423F4528482B4D6251655368566D597133743677397A24432646294A # Clave secreta para firmar el token JWT
-  jwtExpirationMs: 86400000 # Tiempo de expiración del token JWT en milisegundos
+  jwtExpirationMs: 86400000 # Tiempo de expiraciï¿½n del token JWT en milisegundos
 
 springdoc:
   swagger-ui:

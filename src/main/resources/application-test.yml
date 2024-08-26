@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test-backendJava  # URL de la base de datos
+    username: omerSolutions  # Usuario de la base de datos
+    password: peru2020  # Contrase�a de la base de datos
+    driver-class-name: org.postgresql.Driver  # Clase del driver de la base de datos
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Especifica el dialecto de Hibernate para PostgreSQL
+    hibernate:
+      ddl-auto: create-drop  # Actualiza el esquema de la base de datos en cada inicio
+    show-sql: true  # Muestra las consultas SQL en la consola
