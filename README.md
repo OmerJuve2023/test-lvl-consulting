@@ -30,8 +30,8 @@ Asegúrate de tener una base de datos PostgreSQL en funcionamiento y configura l
 ```properties
 # Database configuration
 spring.datasource.url=jdbc:postgresql://localhost:5432/your_database_name
-spring.datasource.username=your_username
-spring.datasource.password=your_password
+spring.datasource.username=OmerSolutions
+spring.datasource.password=peru2020
 spring.datasource.driver-class-name=org.postgresql.Driver
 # Hibernate configuration
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
