@@ -243,7 +243,7 @@ class UserServiceImpTest {
 
         User existingUser = createSampleUser(1L, "testuser", "testuser@example.com");
         when(userRepository.findById(1L)).thenReturn(Optional.of(existingUser));
-        when(passwordEncoder.encode(existingUser.getPassword())).thenReturn("encodedNewPassword");
+        when(passwordEncoder.encode(existingUser.getPassword())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Act
@@ -258,7 +258,7 @@ class UserServiceImpTest {
         assertEquals("UpdatedLast", response.getLastName());
         assertEquals("UpdatedCompany", response.getCompany());
         assertEquals("0987654321", response.getPhone());
-        assertEquals("encodedNewPassword", existingUser.getPassword());
+        assertEquals("encodedPassword", existingUser.getPassword());
 
         verify(userRepository).findById(1L);
         verify(passwordEncoder).encode(existingUser.getPassword());
@@ -276,7 +276,6 @@ class UserServiceImpTest {
         updateUserRequest.setLastName("UpdatedLast");
         updateUserRequest.setCompany("UpdatedCompany");
         updateUserRequest.setPhone("0987654321");
-
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
         // Act & Assert
