@@ -1,12 +1,12 @@
 package omer.solutions.testlvlconsulting.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 @Builder
 @Getter
 @AllArgsConstructor
+@Setter
+@NoArgsConstructor
 public class UpdatePasswordRequest {
     private String email;
     private String oldPassword;

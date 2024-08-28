@@ -13,6 +13,7 @@ import omer.solutions.testlvlconsulting.dto.request.UserRequest;
 import omer.solutions.testlvlconsulting.dto.response.UserResponse;
 import omer.solutions.testlvlconsulting.entity.User;
 import omer.solutions.testlvlconsulting.service.UserService;
+import omer.solutions.testlvlconsulting.utils.ApiRoutes;
 import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,7 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(path = "api/auth")
+@RequestMapping(path = ApiRoutes.ENDPOINT_AUTH, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,7 +34,7 @@ public class AuthController {
     private final JwtUtils jwtUtils;
     private final UserService userService;
 
-    @PostMapping("login")
+    @PostMapping(ApiRoutes.ENDPOINT_LOGIN)
     @Transactional
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         UserResponse userResponse = userService.getUserByEmail(loginRequest.getUsername());
@@ -62,45 +63,45 @@ public class AuthController {
                 );
     }
 
-    @PostMapping("signup")
+    @PostMapping(ApiRoutes.ADD_USER)
     public UserResponse signupUser(@RequestBody @Valid UserRequest request) throws IOException {
         log.debug("Register: {}", request.toString());
         return userService.createUser(request);
     }
 
-    @PostMapping("logout")
+    @PostMapping(ApiRoutes.LOGOUT_USER)
     public ResponseEntity<?> logoutUser() {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
     }
 
-    @PutMapping("update")
+    @PutMapping(ApiRoutes.UPDATE_USER)
     public UserResponse updateUser(@RequestBody @Valid UpdateUserRequest request) throws IOException {
         log.debug("Update: {}", request.toString());
         return userService.updateUser(request);
     }
 
-    @PostMapping("changePassword")
+    @PostMapping(ApiRoutes.UPDATE_PASSWORD)
     public String changePassword(@RequestBody @Valid UpdatePasswordRequest request) {
         log.debug("Change password: {}", request.toString());
         userService.updateUserPassword(request);
         return "Password changed successfully!";
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping(ApiRoutes.DELETE_USER)
     public UserResponse deleteUser(@RequestParam Long id) {
         log.debug("Delete user with id: {}", id);
         return userService.deleteUser(id);
     }
 
-    @PostMapping("uploadImage")
+    @PostMapping(ApiRoutes.UPLOAD_IMAGE)
     public ResponseEntity<String> uploadImage(@RequestParam Long id, @RequestParam MultipartFile file) throws IOException {
         log.debug("Upload image for user with id: {}", id);
         userService.uploadImage(id, file);
         return ResponseEntity.ok().body("Image uploaded successfully!");
     }
 
-    @GetMapping("downloadImage")
+    @GetMapping(ApiRoutes.GET_IMAGE)
     public ResponseEntity<byte[]> downloadImage(@RequestParam Long id) {
         log.debug("Download image for user with id: {}", id);
         UserResponse user = userService.getUserById(id);

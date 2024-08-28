@@ -6,6 +6,7 @@ import omer.solutions.testlvlconsulting.dto.request.ProjectRequest;
 import omer.solutions.testlvlconsulting.dto.request.UpdateProjectRequest;
 import omer.solutions.testlvlconsulting.dto.response.ProjectReponse;
 import omer.solutions.testlvlconsulting.service.ProjectService;
+import omer.solutions.testlvlconsulting.utils.ApiRoutes;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,43 +21,44 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping(path = "/api/project", produces = "application/json")
+@RequestMapping(path = ApiRoutes.ENDPOINT_PROJECT, produces = "application/json")
 public class ProjectController {
     private final ProjectService projectService;
 
-    @PostMapping("create")
+    @PostMapping(ApiRoutes.CREATE_PROJECT)
     public ProjectReponse createProject(@RequestBody ProjectRequest projectRequest) throws IOException {
         return projectService.createProject(projectRequest);
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping(ApiRoutes.DELETE_PROJECT)
     public ResponseEntity<?> deleteProject(@RequestParam Long id) {
         return ResponseEntity.ok(projectService.deleteProject(id));
     }
 
-    @PutMapping("update")
+    @PutMapping(ApiRoutes.UPDATE_PROJECT)
     public ResponseEntity<?> updateProject(@RequestBody UpdateProjectRequest updateProjectRequest) throws IOException {
         return ResponseEntity.ok(projectService.updateProject(updateProjectRequest));
     }
 
-    @GetMapping("get")
+    @GetMapping(ApiRoutes.GET_PROJECT)
     public ResponseEntity<?> getProjectById(@RequestParam Long id, @RequestParam Long idUser) {
         return ResponseEntity.ok().body(projectService.getProjectById(id, idUser));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("getall")
+    @GetMapping(ApiRoutes.GET_ALL_PROJECTS)
     public ResponseEntity<?> getAllProjects() {
         return ResponseEntity.ok(projectService.listAll());
     }
 
-    @GetMapping("getbyuser")
+    @GetMapping(ApiRoutes.GET_PROJECTS_BY_USER)
     public ResponseEntity<?> getProjectsByIdUser(@RequestParam Long id) {
         return ResponseEntity.ok(projectService.listByIdUser(id));
     }
 
-    @PostMapping("uploadImage")
-    public ResponseEntity<?> uploadImage(@RequestParam Long id, @RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping(ApiRoutes.UPLOAD_IMAGE)
+    public ResponseEntity<?> uploadImage(@RequestParam Long id,
+                                         @RequestParam("file") MultipartFile file) throws IOException {
         projectService.uploadImage(id, file);
         return ResponseEntity.ok().body("Image uploaded successfully");
     }

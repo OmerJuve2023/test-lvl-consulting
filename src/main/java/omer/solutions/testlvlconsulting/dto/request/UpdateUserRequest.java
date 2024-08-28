@@ -1,13 +1,13 @@
 package omer.solutions.testlvlconsulting.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
 @AllArgsConstructor
+@Setter
+@NoArgsConstructor
 public class UpdateUserRequest {
     private Long id;
     private String email;

@@ -123,4 +123,8 @@ if (!pm.globals.get('session_cookie')) {
 }
 ```
 
+## Swagger
+
+La documentación de la API se puede encontrar en `http://localhost:8080/swagger-ui/swagger-ui/index.html#/`.
+
 La aplicación se ejecutará en `http://localhost:8080`.
